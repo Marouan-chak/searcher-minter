@@ -34,8 +34,12 @@ async function attemptMint(flashbotsProvider, blockNumber) {
       }
     ], blockNumber + 1
   )
+  if ('error' in bundleSubmitResponse) {
+    console.warn(bundleSubmitResponse.error.message)
+    return
+  }
+  else { mintResult = await bundleSubmitResponse.wait(); }
 
-  mintResult = await bundleSubmitResponse.wait();
 }
 async function prepareForNextBlock(flashbotsProvider, blockNumber) {
   if (mintResult == FlashbotsBundleResolution.BundleIncluded) {
